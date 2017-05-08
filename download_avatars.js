@@ -1,7 +1,9 @@
 var request = require('request');
+var fs = require('fs');
 
 console.log('Welcome to the GitHub Avatar Downloader!');
 
+var URLs = {};
 var GITHUB_USER = "ffiargus";
 var GITHUB_TOKEN = "";
 var USER_AGENT = "GitHub Avatar Downloader - Student Project";
@@ -33,8 +35,16 @@ getRepoContributors("jquery", "jquery", function(err, result) {
   console.log("Errors:", err);
   //console.log("Result:", result);
   for (person of result){
-    console.log(person.avatar_url);
+    //console.log(person.avatar_url);
+    URLs[person.login] = person.avatar_url;
+    console.log(URLs[person.login]);
+    downloadImageByURL(person.avatar_url, 'avatars/'+person.login+'.jpg')
   }
 
 });
 
+function downloadImageByURL(url, filePath) {
+//function downloadImageByURL("https:\/\/avatars2.githubusercontent.com\/u\/2741?v=3&s=466", "avatars/kvirani.jpg") {
+  request.get(url)
+       .pipe(fs.createWriteStream(filePath));
+}
