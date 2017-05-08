@@ -30,21 +30,27 @@ function getRepoContributors(repoOwner, repoName, cb) {
   // })
   //cb(response.statusCode, response);
   //console.log(requestURL);
-
-getRepoContributors("jquery", "jquery", function(err, result) {
-  console.log("Errors:", err);
-  //console.log("Result:", result);
-  for (person of result){
-    //console.log(person.avatar_url);
-    URLs[person.login] = person.avatar_url;
-    console.log(URLs[person.login]);
-    downloadImageByURL(person.avatar_url, 'avatars/'+person.login+'.jpg')
-  }
-
-});
-
 function downloadImageByURL(url, filePath) {
 //function downloadImageByURL("https:\/\/avatars2.githubusercontent.com\/u\/2741?v=3&s=466", "avatars/kvirani.jpg") {
   request.get(url)
        .pipe(fs.createWriteStream(filePath));
+}
+
+var owner = process.argv[2];
+var repo = process.argv[3];
+
+if (owner != null && repo != null){
+  getRepoContributors(owner, repo, function(err, result) {
+    console.log("Errors:", err);
+    //console.log("Result:", result);
+    for (person of result){
+      //console.log(person.avatar_url);
+      URLs[person.login] = person.avatar_url;
+      console.log(URLs[person.login]);
+      downloadImageByURL(person.avatar_url, 'avatars/'+person.login+'.jpg')
+    }
+
+  });
+} else {
+  console.log("Invalid arguements, please enter the owner followed by the repo.")
 }
