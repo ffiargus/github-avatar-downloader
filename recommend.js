@@ -2,8 +2,9 @@ var request = require('request');
 var fs = require('fs');
 require('dotenv').config();
 
-console.log('Welcome to the GitHub Avatar Downloader!');
+console.log('Welcome to the GitHub Repo recommender!');
 
+var URLs = {};
 var GITHUB_USER = process.env.user;
 var GITHUB_TOKEN = process.env.token;
 var USER_AGENT = "GitHub Avatar Downloader - Student Project";
@@ -22,21 +23,11 @@ function getRepoContributors(repoOwner, repoName, cb) {
     cb(err, JSON.parse(response.body));
   });
 }
-
-
-
-function downloadImageByURL(url, filePath) {
-  if (fs.existsSync('./avatars/')) {
-    request.get(url)
-         .pipe(fs.createWriteStream(filePath));
-  }
-  else {
-    throw "The file directory [" + filePath + "] does not exist.";
-  }
-}
-
 var owner = process.argv[2];
 var repo = process.argv[3];
+
+function
+
 if (!fs.existsSync("./.env"))
   throw ".env is missing!";
 if (!process.env.token)
