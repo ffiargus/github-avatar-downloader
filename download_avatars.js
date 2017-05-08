@@ -1,11 +1,12 @@
 var request = require('request');
 var fs = require('fs');
+require('dotenv').config();
 
 console.log('Welcome to the GitHub Avatar Downloader!');
 
 var URLs = {};
 var GITHUB_USER = "ffiargus";
-var GITHUB_TOKEN = "";
+var GITHUB_TOKEN = process.env.token;
 var USER_AGENT = "GitHub Avatar Downloader - Student Project";
 
 function getRepoContributors(repoOwner, repoName, cb) {
